@@ -1,0 +1,98 @@
+/*
+This is a table of Courses that has a course id as it's primary key, course name that can be 30 characters long, start date and end date to check course availability.
+*/ 
+
+CREATE TABLE courses
+(
+  CourseId     INT NOT NULL,
+  CourseName   VARCHAR(30) NOT NULL,
+  StartDate    DATE,
+  EndDate      DATE,
+    PRIMARY KEY (CourseId)
+);
+
+/*
+This is the table of Students with studentid as it's primary key and the first name, last name, email and sex are mandatory columns with courseid being a foreign key referencing courseid of courses table.
+It also has start date and end date to check student active or not.
+*/
+
+CREATE TABLE students
+(
+  StudentId   INT NOT NULL,
+  FirstName   VARCHAR(30) NOT NULL,
+  LastName    VARCHAR(30) NOT NULL,
+  Email       VARCHAR(30) NOT NULL,
+  Sex         ENUM('M','F') NOT NULL,
+  StartDate   DATE,
+  EndDate     DATE,
+  BirthDate   DATE,
+  CourseId    INT,
+    PRIMARY KEY (StudentId),
+    FOREIGN KEY (CourseID)
+      REFERENCES COURSES (CourseId)
+);
+
+
+
+/*
+Insert to the courses table the class Computer Science with Id 101 and start date of October 1, 2001 and no end date
+*/
+
+INSERT INTO courses
+  VALUES (101, 'Computer Science', '01-OCT-2001', NULL);
+
+/*
+Insert to the courses table the class Electrical with Id 102 and start date of October 1, 1990 and no end date
+*/
+
+INSERT INTO courses
+  VALUES (102, 'Electrical', '01-OCT-1990', NULL);
+
+
+
+/*
+Insert to the student table a boy, John King with email jking@gmail.com, birthdate of March 3 1994, and taking Computer Science course starting September 15 2009.     
+*/
+
+INSERT INTO students 
+  VALUES (2001, 'John', 'King', 'jking@gmail.com', 'M', '15-SEP-2009', NULL, '03-MAR-1994', 101);
+
+/*
+Insert to the student table a boy, Craig Joe with email cjoe@gmail.com, birthdate of December 12 1994, and taking Electrical course starting September 15 2009.     
+*/
+
+INSERT INTO students 
+  VALUES (2002, 'Craig', 'Joe', 'cjoe@gmail.com', 'M', '15-SEP-2009', NULL, '12-DEC-1994', 102);
+
+/*
+Insert to the student table a girl, Kate Brown with email kateb@gmail.com, birthdate of April 18 1994, and taking Electrical course starting September 15 2009.     
+*/
+
+INSERT INTO students 
+  VALUES (2003, 'Kate', 'Brown', 'kateb@gmail.com', 'F', '15-SEP-2009', NULL, '18-APR-1994', 102);
+
+
+/*
+Update the student table so that the student with the Id 2003 (Kate) is now taking course 101 (computer science)
+*/
+
+UPDATE student SET CourseId = 101
+WHERE StudentId = 2003;
+
+/*
+Delete the student in the table with the Student ID of 2002 (Craig)
+*/
+
+DELETE FROM student WHERE StudentId = 2002;
+
+/* 
+This is the select statment to see all the students with their info and coursename. 
+*/
+
+SELECT S.FirstName, S.LastName, S.Email, S.sex, S.StartDate, S.EndDate, C.CourseName
+FROM courses AS C INNER JOIN students AS S
+    ON C.CourseId = S.CourseId;
+
+
+
+
